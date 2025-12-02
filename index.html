@@ -1,19 +1,228 @@
-<!doctype html>
-<title>Site Maintenance</title>
-<style>
-  body { text-align: center; padding: 150px; }
-  h1 { font-size: 50px; }
-  body { font: 20px Helvetica, sans-serif; color: #333; }
-  article { display: block; text-align: left; width: 650px; margin: 0 auto; }
-  a { color: #dc8100; text-decoration: none; }
-  a:hover { color: #333; text-decoration: none; }
-</style>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maintenance - Ealico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-<article>
-    <h1>Site en maintenance</h1>
-    <div>
-        <p>Notre équipe technique met toute son énergie pour rétablir vos accès à app.ealico.com dans les meilleurs délais.</p>
-        <p>Vous pouvez nous contacter par mail à <a href="mailto:help@ealico.com">help@ealico.com</a></p>
-        <p>&mdash; L'équipe EALICO</p>
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #F7FAFC 0%, #EDF2F7 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #1E3A5F;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+        }
+
+        .card {
+            background: #FFFFFF;
+            border-radius: 16px;
+            box-shadow: 0 4px 24px rgba(30, 58, 95, 0.08), 0 1px 3px rgba(30, 58, 95, 0.04);
+            padding: 48px 40px;
+            text-align: center;
+        }
+
+        .logo {
+            margin-bottom: 32px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .logo svg {
+            height: 40px;
+            width: auto;
+        }
+
+        .icon-container {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #EBF8FF 0%, #F0F9FF 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 28px;
+            position: relative;
+        }
+
+        .icon-container svg {
+            width: 40px;
+            height: 40px;
+            color: #4299E1;
+            animation: rotate 8s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid #4299E1;
+            opacity: 0;
+            animation: pulse 2.5s ease-out infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.4;
+            }
+            100% {
+                transform: scale(1.4);
+                opacity: 0;
+            }
+        }
+
+        h1 {
+            font-size: 24px;
+            font-weight: 700;
+            color: #1E3A5F;
+            margin-bottom: 16px;
+        }
+
+        .description {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #4A5568;
+            margin-bottom: 32px;
+        }
+
+        .contact {
+            font-size: 15px;
+            color: #4A5568;
+        }
+
+        .contact a {
+            color: #0c517e;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        .contact a:hover {
+            color: #00d542;
+            text-decoration: underline;
+        }
+
+        .footer {
+            margin-top: 28px;
+            padding-top: 24px;
+            border-top: 1px solid #EDF2F7;
+            font-size: 14px;
+            color: #718096;
+        }
+
+        .footer strong {
+            color: #1E3A5F;
+            font-weight: 600;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #FFF9E6;
+            color: #B7791F;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #F6AD55;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 36px 24px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            .description {
+                font-size: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="logo">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1418.06 501.67">
+                    <polygon points="1033.769 185.829 1016.653 185.829 1016.653 316.534 1033.834 316.534 1033.769 185.829" style="fill:#0c517e;"/>
+                    <polygon points="942.85 302.208 942.792 185.829 925.676 185.829 925.676 316.534 998.821 316.534 998.821 302.208 942.85 302.208" style="fill:#0c517e;"/>
+                    <polygon points="728.668 302.208 728.645 255.169 779.268 255.169 779.268 241.441 728.638 241.441 728.618 200.154 781.963 200.154 781.963 185.828 711.494 185.829 711.494 316.534 784.64 316.534 784.64 302.208 728.668 302.208" style="fill:#0c517e;"/>
+                    <path d="m888.562,316.534h17.268l-44.135-130.531.133-.174h-20.447l-44.194,130.705h17.268l13.042-41.258h48.024l13.042,41.258Zm-56.898-54.443l19.844-62.776,19.844,62.776h-39.688Z" style="fill:#0c517e;"/>
+                    <path d="m1154.473,188.885l-3.981,14.333c-31.852-13.139-77.042-3.782-77.042,47.963,0,54.56,46.583,59.338,77.838,48.19l3.185,12.99c-44.792,16.125-98.691,2.759-98.691-61.18s60.917-77.525,98.691-62.296Z" style="fill:#0c517e;"/>
+                    <path d="m1227.632,183.197c-21.649,0-59.573,15.095-59.573,67.7,0,54.746,35.286,67.699,59.648,67.699,21.724,0,59.648-12.954,59.648-67.599,0-55.84-39.118-67.8-59.722-67.8Zm0,122.147c-19.41,0-41.706-16.921-41.706-54.162s21.301-53.935,41.706-53.935c21.201,0,42.104,16.722,42.104,53.65s-22.694,54.447-42.104,54.447Z" style="fill:#0c517e;"/>
+                    <path d="m169.766,250.835c0-44.769,36.292-81.061,81.061-81.061,33.445,0,55.795,22.265,74.538,49.17l28.045-30.629c-33.185-33.736-53.888-57.602-102.582-57.602-66.341,0-120.121,53.78-120.121,120.121s53.78,120.121,120.121,120.121c10.812,0,21.281-1.452,31.248-4.13l-35.288-35.032c-42.891-2.106-77.02-37.545-77.02-80.959Z" style="fill:#0c517e;"/>
+                    <path d="m521.887,130.836v39.095c42.51,2.509,76.213,37.764,76.213,80.904,0,44.769-36.292,81.061-81.061,81.061-40.939,0-57.661-30.798-74.163-48.34l-26.783,29.218c23.974,32.718,52.243,58.183,100.946,58.183,66.341,0,120.122-53.78,120.122-120.121,0-64.715-51.183-117.451-115.274-119.999Z" style="fill:#0c517e;"/>
+                    <path d="m407.22,195.19c-15.369,18.238-91.796,102.546-91.696,102.646l-51.729-51.729-28.565,28.565,77.609,77.609c55.961-41.578,141.812-170.727,176.799-175.617v-42.789c-38.023,8.494-69.576,46.078-82.417,61.315Z" style="fill:#00d542;"/>
+                </svg>
+            </div>
+
+            <div class="icon-container">
+                <div class="pulse-ring"></div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-.94 1.11-.94h1.093c.55 0 1.02.398 1.11.94l.149.894c.07.424.384.764.78.93.398.164.855.142 1.205-.108l.737-.527a1.125 1.125 0 011.45.12l.773.774c.39.389.44 1.002.12 1.45l-.527.737c-.25.35-.272.806-.107 1.204.165.397.505.71.93.78l.893.15c.543.09.94.56.94 1.109v1.094c0 .55-.397 1.02-.94 1.11l-.893.149c-.425.07-.765.383-.93.78-.165.398-.143.854.107 1.204l.527.738c.32.447.269 1.06-.12 1.45l-.774.773a1.125 1.125 0 01-1.449.12l-.738-.527c-.35-.25-.806-.272-1.204-.107-.397.165-.71.505-.78.929l-.15.894c-.09.542-.56.94-1.11.94h-1.094c-.55 0-1.019-.398-1.11-.94l-.148-.894c-.071-.424-.384-.764-.781-.93-.398-.164-.854-.142-1.204.108l-.738.527c-.447.32-1.06.269-1.45-.12l-.773-.774a1.125 1.125 0 01-.12-1.45l.527-.737c.25-.35.273-.806.108-1.204-.165-.397-.506-.71-.93-.78l-.894-.15c-.542-.09-.94-.56-.94-1.109v-1.094c0-.55.398-1.02.94-1.11l.894-.149c.424-.07.765-.383.93-.78.165-.398.143-.854-.108-1.204l-.526-.738a1.125 1.125 0 01.12-1.45l.773-.773a1.125 1.125 0 011.45-.12l.737.527c.35.25.807.272 1.204.107.397-.165.71-.505.78-.929l.15-.894z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+            </div>
+
+            <div class="status">
+                <span class="status-dot"></span>
+                Maintenance en cours
+            </div>
+
+            <h1>Nous revenons très vite</h1>
+
+            <p class="description">
+                Notre équipe technique met toute son énergie pour rétablir vos accès à <strong>app.ealico.com</strong> dans les meilleurs délais.
+            </p>
+
+            <p class="contact">
+                Pour toute question, contactez-nous à : <a href="mailto:help@ealico.com">help@ealico.com</a>
+            </p>
+
+            <div class="footer">
+                <strong>— L'équipe Ealico</strong>
+            </div>
+        </div>
     </div>
-</article>
+</body>
+</html>
