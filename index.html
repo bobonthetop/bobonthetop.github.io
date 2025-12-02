@@ -239,36 +239,29 @@
         (function() {
             const APP_URL = 'https://app.ealico.com';
             const CHECK_INTERVAL = 60000; // Check every 60 seconds
-            const REDIRECT_KEY = 'ealico_redirect_time';
 
-            function tryRedirect() {
-                // Check if we just got redirected back (within last 5 seconds)
-                const lastRedirect = sessionStorage.getItem(REDIRECT_KEY);
-                const now = Date.now();
-
-                if (lastRedirect && (now - parseInt(lastRedirect)) < 5000) {
-                    // We just got redirected back, maintenance is still on
-                    // Wait and try again later
-                    sessionStorage.removeItem(REDIRECT_KEY);
-                    setTimeout(tryRedirect, CHECK_INTERVAL);
-                    return;
+            // Detect if we arrived here via redirect (Cloudflare bounced us back)
+            function wasRedirected() {
+                try {
+                    const entries = performance.getEntriesByType('navigation');
+                    return entries.length > 0 && entries[0].redirectCount > 0;
+                } catch (e) {
+                    return false;
                 }
+            }
 
-                // Mark that we're about to redirect
-                sessionStorage.setItem(REDIRECT_KEY, now.toString());
+            function attemptRedirect() {
                 window.location.href = APP_URL;
             }
 
-            // On page load, check if we just got redirected back
-            const lastRedirect = sessionStorage.getItem(REDIRECT_KEY);
-            if (lastRedirect) {
-                // We got redirected back, maintenance is still on
-                sessionStorage.removeItem(REDIRECT_KEY);
-                // Schedule next check
-                setTimeout(tryRedirect, CHECK_INTERVAL);
+            // If we were redirected here, maintenance is still active
+            // Wait before trying again
+            if (wasRedirected()) {
+                console.log('Maintenance active - checking again in 60s');
+                setTimeout(attemptRedirect, CHECK_INTERVAL);
             } else {
-                // Fresh page load, start checking after delay
-                setTimeout(tryRedirect, CHECK_INTERVAL);
+                // Direct visit - wait then check
+                setTimeout(attemptRedirect, CHECK_INTERVAL);
             }
         })();
     </script>
