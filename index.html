@@ -239,16 +239,37 @@
         (function() {
             const APP_URL = 'https://app.ealico.com';
             const CHECK_INTERVAL = 60000; // Check every 60 seconds
+            const REDIRECT_KEY = 'ealico_redirect_time';
 
-            // Periodically try to go to the app
-            // If maintenance is still on, Cloudflare redirects back here
-            // If maintenance is over, user lands on the app
             function tryRedirect() {
+                // Check if we just got redirected back (within last 5 seconds)
+                const lastRedirect = sessionStorage.getItem(REDIRECT_KEY);
+                const now = Date.now();
+
+                if (lastRedirect && (now - parseInt(lastRedirect)) < 5000) {
+                    // We just got redirected back, maintenance is still on
+                    // Wait and try again later
+                    sessionStorage.removeItem(REDIRECT_KEY);
+                    setTimeout(tryRedirect, CHECK_INTERVAL);
+                    return;
+                }
+
+                // Mark that we're about to redirect
+                sessionStorage.setItem(REDIRECT_KEY, now.toString());
                 window.location.href = APP_URL;
             }
 
-            // Start checking after initial delay
-            setTimeout(tryRedirect, CHECK_INTERVAL);
+            // On page load, check if we just got redirected back
+            const lastRedirect = sessionStorage.getItem(REDIRECT_KEY);
+            if (lastRedirect) {
+                // We got redirected back, maintenance is still on
+                sessionStorage.removeItem(REDIRECT_KEY);
+                // Schedule next check
+                setTimeout(tryRedirect, CHECK_INTERVAL);
+            } else {
+                // Fresh page load, start checking after delay
+                setTimeout(tryRedirect, CHECK_INTERVAL);
+            }
         })();
     </script>
 </body>
