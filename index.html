@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Maintenance - Ealico</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 400'%3E%3Cpath d='m169.766,250.835c0-44.769,36.292-81.061,81.061-81.061,33.445,0,55.795,22.265,74.538,49.17l28.045-30.629c-33.185-33.736-53.888-57.602-102.582-57.602-66.341,0-120.121,53.78-120.121,120.121s53.78,120.121,120.121,120.121c10.812,0,21.281-1.452,31.248-4.13l-35.288-35.032c-42.891-2.106-77.02-37.545-77.02-80.959Z' fill='%230c517e'/%3E%3Cpath d='m521.887,130.836v39.095c42.51,2.509,76.213,37.764,76.213,80.904,0,44.769-36.292,81.061-81.061,81.061-40.939,0-57.661-30.798-74.163-48.34l-26.783,29.218c23.974,32.718,52.243,58.183,100.946,58.183,66.341,0,120.122-53.78,120.122-120.121,0-64.715-51.183-117.451-115.274-119.999Z' fill='%230c517e'/%3E%3Cpath d='m407.22,195.19c-15.369,18.238-91.796,102.546-91.696,102.646l-51.729-51.729-28.565,28.565,77.609,77.609c55.961-41.578,141.812-170.727,176.799-175.617v-42.789c-38.023,8.494-69.576,46.078-82.417,61.315Z' fill='%2300d542'/%3E%3C/svg%3E">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -240,15 +241,29 @@
             const APP_URL = 'https://app.ealico.com';
             const CHECK_INTERVAL = 60000; // Check every 60 seconds
 
-            // Periodically try to go to the app
-            // If maintenance is still on, Cloudflare redirects back here
-            // If maintenance is over, user lands on the app
-            function tryRedirect() {
+            // Detect if we arrived here via redirect (Cloudflare bounced us back)
+            function wasRedirected() {
+                try {
+                    const entries = performance.getEntriesByType('navigation');
+                    return entries.length > 0 && entries[0].redirectCount > 0;
+                } catch (e) {
+                    return false;
+                }
+            }
+
+            function attemptRedirect() {
                 window.location.href = APP_URL;
             }
 
-            // Start checking after initial delay
-            setTimeout(tryRedirect, CHECK_INTERVAL);
+            // If we were redirected here, maintenance is still active
+            // Wait before trying again
+            if (wasRedirected()) {
+                console.log('Maintenance active - checking again in 60s');
+                setTimeout(attemptRedirect, CHECK_INTERVAL);
+            } else {
+                // Direct visit - wait then check
+                setTimeout(attemptRedirect, CHECK_INTERVAL);
+            }
         })();
     </script>
 </body>
